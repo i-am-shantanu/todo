@@ -6,9 +6,11 @@ exports.signup = async(req,res) =>{
 
     try {
         await addUser(req.body);
-        res.sendStatus(200);
+        const user=await getUserByUsername(req.body.username);
+        return res.status(201).send(user);
     } catch (error) {
         console.log(error);
+        return res.status(409).send({message:"username already taken"})
     }
 }
 exports.login = async(req,res,next)=>{
